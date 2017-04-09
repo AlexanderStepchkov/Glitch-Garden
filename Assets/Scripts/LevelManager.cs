@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour {
 
+    void Awake() {
+        DontDestroyOnLoad(gameObject);
+    }
+
     public void LoadLevel(string sceneName) {
         SceneManager.LoadScene(sceneName);
     }
