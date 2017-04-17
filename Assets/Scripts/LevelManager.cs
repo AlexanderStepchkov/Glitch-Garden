@@ -15,6 +15,7 @@ public class LevelManager : MonoBehaviour {
 		if (autoloadNextLevelAfterSeconds > 0) {
 			Invoke ("LoadNextLevel", autoloadNextLevelAfterSeconds);
 			autoloadNextLevelAfterSeconds = 0.0f;
+			PlayerPrefManager.SetDefaults ();
 		}
 	}
 

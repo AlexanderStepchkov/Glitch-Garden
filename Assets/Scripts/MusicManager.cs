@@ -35,4 +35,8 @@ public class MusicManager : MonoBehaviour {
 			audioSource.loop = true;
 		}
     }
+
+	public void ChangeVolume (float volume) {
+		audioSource.volume = volume;
+	}
 }

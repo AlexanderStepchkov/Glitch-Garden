@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class FadePanel : MonoBehaviour {
 
-	public float fadeInSeconds = 2.0f;
-	public float fadeOutSeconds = 2.0f;
+	public float fadeInSeconds;
+	public float fadeOutSeconds;
 
 	private bool isFadingIn = false;
 	private bool isFadingOut = false;
@@ -37,7 +37,7 @@ public class FadePanel : MonoBehaviour {
 
 	void Update() {
 		if (isFadingOut || isFadingIn) {
-			float newAlpha = fadeColor.a + (isFadingOut ? 1 : -1) * Time.deltaTime / fadeInSeconds;
+			float newAlpha = fadeColor.a + (isFadingOut ? 1 : -1) * Time.deltaTime / (isFadingOut ? fadeOutSeconds : fadeInSeconds);
 			if (newAlpha >= 255) {
 				newAlpha = 255;
 				isFadingOut = false;
