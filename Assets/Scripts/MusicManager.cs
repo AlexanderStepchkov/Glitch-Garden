@@ -7,27 +7,32 @@ public class MusicManager : MonoBehaviour {
     
     public AudioClip[] musicArray;
 
-    [SerializeField]
-    private LevelManager loadManager;
     private AudioSource audioSource;
 
-    void Awake () {
+    void Awake() {
         DontDestroyOnLoad(gameObject);
         audioSource = GetComponent<AudioSource>();
 	}
 
-    void Start() {
-        
-    }
+	void OnEnable() {
+		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+	}
 
-    void LoadNextLevel() {
-        loadManager.LoadNextLevel();
-    }
+	void OnDisable() {
+		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+	}
 
-    private void OnLevelWasLoaded(int level) {
-        audioSource.clip = musicArray[level];
-        audioSource.Play();
-        if (level == 0)
-            Invoke("LoadNextLevel", audioSource.clip.length);
+	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode) {
+		int level = scene.buildIndex;
+		AudioClip clip = musicArray[level];
+		if (clip) {
+			audioSource.clip = clip;
+			audioSource.Play();
+		}
+		if (level == 0) {
+			audioSource.loop = false;
+		} else {
+			audioSource.loop = true;
+		}
     }
 }

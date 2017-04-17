@@ -5,20 +5,34 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour {
 
+	public float autoloadNextLevelAfterSeconds = 0.0f;
+
     void Awake() {
-        DontDestroyOnLoad(gameObject);
+		DontDestroyOnLoad (gameObject);
     }
+
+	void Start() {
+		if (autoloadNextLevelAfterSeconds > 0) {
+			Invoke ("LoadNextLevel", autoloadNextLevelAfterSeconds);
+			autoloadNextLevelAfterSeconds = 0.0f;
+		}
+	}
 
     public void LoadLevel(string sceneName) {
-        SceneManager.LoadScene(sceneName);
+		SceneManager.LoadSceneAsync (sceneName);
     }
 
+	public void LoadLevel(int sceneNum) {
+		SceneManager.LoadSceneAsync (sceneNum);
+	}
+
     public void LoadNextLevel() {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+		int currentBuildIndex = SceneManager.GetActiveScene ().buildIndex;
+		SceneManager.LoadSceneAsync (currentBuildIndex + 1);
     }
 
     public void Quit() {
-        Debug.Log("App is closing");
-        Application.Quit();
+		Debug.Log ("App is closing");
+		Application.Quit ();
     }
 }
